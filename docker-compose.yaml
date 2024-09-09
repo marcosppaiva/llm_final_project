@@ -1,0 +1,77 @@
+version: '3.8'
+
+
+services:
+  postgres:
+    image: postgres:13
+    restart: always
+    container_name: postgres
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    command:
+      - "postgres"
+      - "-c"
+      - "wal_level=logical"
+    volumes:
+      - ./config/postgres/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - qa_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "test@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - qa_network
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./config/grafana/grafana_datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./config/grafana/grafana_dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ./config/grafana/dashboards:/opt/grafana/dashboards
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - qa_network
+    
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    volumes:
+       - ./ollama/ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - qa_network
+
+volumes:
+  ollama:
+  grafana:
+  postgres:
+
+networks:
+  qa_network:
+    driver: bridge
