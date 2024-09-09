@@ -1,0 +1,30 @@
+[tool.pylint.messages_control]
+
+disable = [
+    "missing-function-docstring",
+    "missing-final-newline",
+    "missing-class-docstring",
+    "missing-module-docstring",
+    "invalid-name",
+    "too-few-public-methods",
+    "anomalous-backslash-in-string",
+    "f-string-without-interpolation",
+    "logging-fstring-interpolation",
+    "import-error",
+    "ungrouped-imports",
+    "no-name-in-module",
+    "too-many-arguments",
+    "global-statement"
+]
+
+[tool.pylint.MASTER]
+init-hook='import sys; sys.path.append(".")'
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+skip-string-normalization = true
+
+[tool.isort]
+multi_line_output = 3
+length_sort = true
