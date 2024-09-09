@@ -1,0 +1,16 @@
+# config file version
+apiVersion: 1
+
+# list of datasources to insert/update
+# available in the database
+datasources:
+  - name: PostgreSQL
+    type: postgres
+    access: proxy
+    url: postgres.:5432
+    database: ${DB_NAME}
+    user: ${DB_USER}
+    secureJsonData:
+      password: ${DB_PASSWORD}
+    jsonData:
+      sslmode: 'disable'
