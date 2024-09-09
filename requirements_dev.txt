@@ -1,0 +1,8 @@
+-r requirements.txt
+jupyterlab
+pre-commit
+pytest
+pylint
+black
+isort
+pytest-mock

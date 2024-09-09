@@ -1,0 +1,9 @@
+streamlit==1.37.0
+openai==1.37.1
+groq
+python-dotenv
+SQLAlchemy
+psycopg2-binary
+streamlit-feedback
+langchain
+prefect
