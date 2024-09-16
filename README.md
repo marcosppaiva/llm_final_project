@@ -6,7 +6,8 @@
 **Game Query Assistant (GQA)** is a chatbot designed to assist players with their queries about video games by leveraging insights from reviews written by other players. By combining **Large Language Models (LLM)** and **Retrieval-Augmented Generation (RAG)** techniques, GQA formulates precise and contextually relevant responses based on real-time feedback extracted from the Steam platform.
 
 ## Architecture
-![architecture](images/architecture.png)
+![architecture](images/arch.png)
+
 
 
 ## Features
