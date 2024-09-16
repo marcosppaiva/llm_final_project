@@ -6,7 +6,7 @@
 **Game Query Assistant (GQA)** is a chatbot designed to assist players with their queries about video games by leveraging insights from reviews written by other players. By combining **Large Language Models (LLM)** and **Retrieval-Augmented Generation (RAG)** techniques, GQA formulates precise and contextually relevant responses based on real-time feedback extracted from the Steam platform.
 
 ## Architecture
-![architecture](images/Architecture.png)
+![architecture](images/architecture.png)
 
 
 ## Features
@@ -62,8 +62,12 @@
 
 2. Set up the environment:
    ```bash
-   python3 -m venv venv
+   python -m venv venv
+   # Mar or Linux
    source venv/bin/activate
+   # Windows
+   venv/Scripts/activate
+   
    pip install -r requirements_dev.txt
    ```
 
@@ -73,6 +77,7 @@
    make rename_env_file
    ```
 * open the .env file and add your acess keys.
+![env](images/env_file.png)
 
 4. Run the Docker container:
    ```bash
