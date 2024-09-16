@@ -1,0 +1,53 @@
+# Welcome to your prefect.yaml file! You can use this file for storing and managing
+# configuration for deploying your flows. We recommend committing this file to source
+# control along with your flow code.
+
+# Generic metadata about this project
+name: llm_final_project
+prefect-version: 3.0.1
+
+# build section allows you to manage and build docker images
+build:
+
+# push section allows you to manage if and how this project is uploaded to remote locations
+push:
+
+# pull section allows you to provide instructions for cloning this project in remote locations
+pull:
+- prefect.deployments.steps.set_working_directory:
+    directory: /Users/marcospaulopaivapereira/Documents/Projetos/llm_final_project
+
+# the deployments section allows you to provide configuration for deploying flows
+deployments:
+- name:
+  version:
+  tags: []
+  description:
+  schedule: {}
+  flow_name:
+  entrypoint:
+  parameters: {}
+  work_pool:
+    name:
+    work_queue_name:
+    job_variables: {}
+- name: steam_review
+  version:
+  tags: []
+  description:
+  schedule: {}
+  entrypoint: src/processing/steam_reviews_downloader.py:main_flow
+  parameters: {}
+  work_pool:
+    name: qa-pool
+    work_queue_name:
+    job_variables: {}
+  concurrency_limit:
+  enforce_parameter_schema: true
+  schedules:
+  - cron: 0 0 * * *
+    timezone: UTC
+    day_or: true
+    active: false
+    max_active_runs:
+    catchup: false

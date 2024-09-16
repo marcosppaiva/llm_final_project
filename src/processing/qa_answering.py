@@ -55,7 +55,7 @@ class QuestionAnswering:
             model=self._model_name,
         )
 
-        print('Answser:', response)
+        print('Answer:', response)
 
         return response
 

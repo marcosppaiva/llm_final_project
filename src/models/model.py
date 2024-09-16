@@ -55,6 +55,7 @@ class Review(Base):
     timestamp_dev_responded = Column(BigInteger)
     hidden_in_steam_china = Column(Boolean)
     steam_china_location = Column(String)
+    primarily_steam_deck = Column(Boolean)
 
     created = Column(DateTime, default=datetime.now(tz))
     updated = Column(DateTime, default=datetime.now(tz))

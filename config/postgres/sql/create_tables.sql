@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS review
     timestamp_dev_responded bigint,
     hidden_in_steam_china boolean,
     steam_china_location VARCHAR(255),
+    primarily_steam_deck boolean,
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT reviews_pkey PRIMARY KEY (recommendationid)

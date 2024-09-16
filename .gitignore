@@ -4,7 +4,7 @@
 
 # Docker volumes
 ollama/
-
+chromadb/
 # Vector Database
 
 chroma_db*

@@ -243,7 +243,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\n  SUM(CASE WHEN feedback_score > 0 THEN 1 ELSE 0 END) as thumbs_up,\n  SUM(CASE WHEN feedback_score < 0 THEN 1 ELSE 0 END) as thumbs_down\nFROM feedback\nWHERE feedback_date BETWEEN $__timeFrom() AND $__timeTo()",
+          "rawSql": "SELECT\n  SUM(CASE WHEN feedback_score > 0 THEN 1 ELSE 0 END) as thumbs_up,\n  SUM(CASE WHEN feedback_score <= 0 THEN 1 ELSE 0 END) as thumbs_down\nFROM feedback\nWHERE feedback_date BETWEEN $__timeFrom() AND $__timeTo()",
           "refId": "A",
           "sql": {
             "columns": [
@@ -657,8 +657,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -765,8 +764,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -830,7 +828,7 @@
       "type": "timeseries"
     }
   ],
-  "refresh": "auto",
+  "refresh": "5s",
   "schemaVersion": 39,
   "tags": [],
   "templating": {

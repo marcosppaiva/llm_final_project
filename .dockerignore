@@ -1,0 +1,16 @@
+chromadb
+docs
+notebooks
+ollama
+tests
+Dockerfile
+docker-compose
+README.md
+pyproject.toml
+requirements_dev.txt
+docker-compose.yaml
+.env.sample
+config
+images
+Makefile
+prefect.yaml

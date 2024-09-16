@@ -28,7 +28,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Constants
-COLLECTION_NAME = 'game_reviews'
+COLLECTION_NAME = 'steam_reviews'
 PROMPT_ASSISTANT_PATH = "prompts/prompt_assistant.j2"
 RELEVANCE_EVAL_PATH = "prompts/relevance_eval.j2"
 
@@ -43,7 +43,9 @@ class ChatbotApp:
     def _load_vector_store() -> LangChainChromaRAG:
         """Load and cache the vector store."""
         logger.info("Loading vector store...")
-        return LangChainChromaRAG(collection_name=COLLECTION_NAME)
+        return LangChainChromaRAG(
+            collection_name=COLLECTION_NAME, chroma_host='chromadb'
+        )
 
     @staticmethod
     def _get_db_connection() -> DataBaseConnector:
@@ -94,6 +96,7 @@ class ChatbotApp:
         try:
             context = self.vector_store.search(prompt, filter={'game': game})
             logger.info(f"Vector store search results: {context}")
+            print(f'Context: {context}')
         except Exception as err:
             logger.error(f"Error during vector store search: {str(err)}")
             st.error(
@@ -120,7 +123,7 @@ class ChatbotApp:
                     'completion_tokens': response.usage.completion_tokens,
                     'prompt_tokens': response.usage.prompt_tokens,
                 },
-                model=None,
+                model=qa.model_name,
             )
 
             response_time = time.time() - start_time

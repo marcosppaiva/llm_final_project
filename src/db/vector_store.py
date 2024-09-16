@@ -1,8 +1,11 @@
 from typing import Dict, List, Optional
 
+from chromadb.config import Settings
 from langchain_chroma import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
+
+import chromadb
 
 
 class LangChainChromaRAG:
@@ -22,8 +25,8 @@ class LangChainChromaRAG:
     def __init__(
         self,
         collection_name: str,
-        embedding_model_name: Optional[str] = 'sentence-transformers/all-MiniLM-L6-v2',
-        persist_directory: Optional[str] = 'chroma_db_new',
+        chroma_host: str = 'localhost',
+        embedding_model_name: str = 'sentence-transformers/all-MiniLM-L6-v2',
     ):
         """Initializes the LangChainChromaRAG class with the specified collection name,
         embedding model, and persistent directory.
@@ -31,17 +34,20 @@ class LangChainChromaRAG:
         Args:
             collection_name (str): Name of the collection in the Chroma vector store.
             embedding_model_name (str, optional): The name of the embedding model from HuggingFace. Defaults to "sentence-transformers/all-MiniLM-L6-v2".
-            persist_directory (str, optional): Directory where the Chroma database will be persisted. Defaults to "./chroma_db_new".
         """
         self.collection_name = collection_name
-        self.persist_directory = persist_directory
+        self.chroma_client = chromadb.HttpClient(
+            host=chroma_host,
+            port=8000,
+            settings=Settings(allow_reset=True, anonymized_telemetry=False),
+        )
 
         self.embeddings = HuggingFaceEmbeddings(model_name=embedding_model_name)
 
         self.vectorstore = Chroma(
+            client=self.chroma_client,
             collection_name=collection_name,
             embedding_function=self.embeddings,
-            persist_directory=persist_directory,
         )
 
         self.text_splitter = RecursiveCharacterTextSplitter(

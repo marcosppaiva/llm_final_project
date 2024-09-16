@@ -2,6 +2,19 @@ version: '3.8'
 
 
 services:
+
+  web_app:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: web_app
+    container_name: web_app
+    ports:
+      - "8501:8501"
+    networks:
+      - qa_network
+
   postgres:
     image: postgres:13
     restart: always
@@ -57,20 +70,25 @@ services:
     networks:
       - qa_network
     
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
+  chromadb:
+    image: ghcr.io/chroma-core/chroma:latest
+    container_name: chromadb
     volumes:
-       - ./ollama/ollama:/root/.ollama
+      - ./chromadb:/chroma/chroma
+    command: "--workers 1 --host 0.0.0.0 --port 8000 --proxy-headers --log-config chromadb/log_config.yml --timeout-keep-alive 30"
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma # this is the default path, change it as needed
     ports:
-      - "11434:11434"
+      - "8000:8000"
     networks:
       - qa_network
 
 volumes:
-  ollama:
+  chromadb:
   grafana:
   postgres:
+  web_app:
 
 networks:
   qa_network:
